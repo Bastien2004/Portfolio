@@ -28,7 +28,7 @@ class ProjectController extends Controller
             'url'         => 'nullable|url|max:255',
             'github'      => 'nullable|url|max:255',
             'tags'        => 'nullable|string|max:255',
-            'files.*'     => 'nullable|file|max:20480',
+            'files.*'     => 'nullable|file|max:512000',
             'is_featured' => 'nullable|boolean',
         ]);
 
