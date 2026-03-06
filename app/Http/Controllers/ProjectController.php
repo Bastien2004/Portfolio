@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -27,11 +28,10 @@ class ProjectController extends Controller
             'url'         => 'nullable|url|max:255',
             'github'      => 'nullable|url|max:255',
             'tags'        => 'nullable|string|max:255',
-            'files.*'     => 'nullable|file|max:20480', // 20Mo par fichier
+            'files.*'     => 'nullable|file|max:20480',
             'is_featured' => 'nullable|boolean',
         ]);
 
-        // 1. Créer le projet
         $project = Project::create([
             'title'       => $request->title,
             'description' => $request->description,
@@ -41,15 +41,14 @@ class ProjectController extends Controller
             'is_featured' => $request->boolean('is_featured'),
         ]);
 
-        // 2. Enregistrer chaque fichier uploadé
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $path = $file->store('projects', 'public');
                 $project->files()->create([
-                    'file_path'  => $path,
-                    'file_name'  => $file->getClientOriginalName(),
-                    'file_type'  => $file->getClientMimeType(),
-                    'file_size'  => $file->getSize(),
+                    'file_path' => $path,
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_type' => $file->getClientMimeType(),
+                    'file_size' => $file->getSize(),
                 ]);
             }
         }
@@ -59,9 +58,8 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
-        // Supprimer les fichiers physiques
         foreach ($project->files as $file) {
-            \Storage::disk('public')->delete($file->file_path);
+            Storage::disk('public')->delete($file->file_path);
         }
         $project->delete();
 

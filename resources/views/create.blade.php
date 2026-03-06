@@ -135,15 +135,9 @@
         }
         textarea.form-input { resize: none; }
 
-        .form-hint {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 5px;
-        }
-
+        .form-hint { font-size: 12px; color: var(--muted); margin-top: 5px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-        /* Drop zone */
         .drop-zone {
             border: 2px dashed rgba(37,99,235,0.3);
             border-radius: 12px;
@@ -152,6 +146,7 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
         }
         .drop-zone:hover, .drop-zone.dragover {
             border-color: var(--blue-light);
@@ -161,7 +156,16 @@
         .drop-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
         .drop-sub { font-size: 12px; color: var(--muted); }
 
-        /* File previews */
+        /* Input caché par-dessus la drop zone */
+        .drop-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
         .file-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
 
         .file-preview {
@@ -220,7 +224,6 @@
         }
         .remove-file:hover { color: #f87171; background: rgba(248,113,113,0.1); }
 
-        /* Checkbox */
         .checkbox-row {
             display: flex;
             align-items: center;
@@ -237,15 +240,9 @@
             accent-color: var(--blue-light);
             cursor: pointer;
         }
-        .checkbox-label {
-            font-size: 14px;
-            color: var(--text);
-            cursor: pointer;
-            user-select: none;
-        }
+        .checkbox-label { font-size: 14px; color: var(--text); cursor: pointer; user-select: none; }
         .checkbox-label span { font-size: 12px; color: var(--muted); }
 
-        /* Error */
         .error-box {
             background: rgba(248,113,113,0.08);
             border: 1px solid rgba(248,113,113,0.3);
@@ -257,10 +254,8 @@
         }
         .error-box div { margin-bottom: 3px; }
 
-        /* Divider */
         .form-divider { height: 1px; background: var(--border); margin: 24px 0; }
 
-        /* Actions */
         .form-actions {
             display: flex;
             align-items: center;
@@ -268,12 +263,7 @@
             margin-top: 28px;
         }
 
-        .btn-cancel {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
+        .btn-cancel { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
         .btn-cancel:hover { color: var(--text); }
 
         .btn-submit {
@@ -304,11 +294,10 @@
     <div class="container">
 
         <a href="{{ route('projects.index') }}" class="back-link">← Retour au portfolio</a>
-
         <h1 class="page-title">Nouveau<br><em>Projet</em></h1>
 
         <div class="form-card">
-            <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data" id="project-form">
                 @csrf
 
                 @if($errors->any())
@@ -355,15 +344,27 @@
 
                 <div class="form-divider"></div>
 
+                {{--
+                    STRATÉGIE : au lieu de réassigner input.files (DataTransfer, non fiable),
+                    on crée un nouvel input hidden par fichier sélectionné.
+                    La drop zone affiche juste l'UI, les vrais inputs sont dans #hidden-inputs.
+                --}}
                 <div class="form-group">
                     <label class="form-label">Fichiers du projet</label>
-                    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+
+                    <div class="drop-zone" id="drop-zone">
                         <div class="drop-icon">📎</div>
                         <div class="drop-title">Déposez vos fichiers ici</div>
                         <div class="drop-sub">ou cliquez pour sélectionner · Images, MP4, PDF, DOCX — max 20 Mo</div>
+                        {{-- Input visible dans la drop zone pour le clic et le drag --}}
+                        <input type="file" id="file-trigger" multiple
+                               accept="image/*,video/mp4,.pdf,.docx">
                     </div>
-                    <input type="file" name="files[]" id="file-input" multiple
-                           accept="image/*,video/mp4,.pdf,.docx" class="hidden">
+
+                    {{-- Les vrais inputs file soumis avec le form --}}
+                    <div id="hidden-inputs"></div>
+
+                    {{-- Aperçus visuels --}}
                     <div class="file-list" id="file-list"></div>
                 </div>
 
@@ -387,38 +388,53 @@
 </div>
 
 <script>
-    const input = document.getElementById('file-input');
-    const dropZone = document.getElementById('drop-zone');
-    const fileListEl = document.getElementById('file-list');
-    let dataTransfer = new DataTransfer();
+    const trigger   = document.getElementById('file-trigger');
+    const dropZone  = document.getElementById('drop-zone');
+    const fileList  = document.getElementById('file-list');
+    const hiddenInputs = document.getElementById('hidden-inputs');
 
+    // Drag & drop styling
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone.addEventListener('drop', e => {
         e.preventDefault();
         dropZone.classList.remove('dragover');
-        addFiles(e.dataTransfer.files);
+        handleFiles(e.dataTransfer.files);
     });
 
-    input.addEventListener('change', () => {
-        addFiles(input.files);
-        input.value = '';
+    // Sélection via clic
+    trigger.addEventListener('change', () => {
+        handleFiles(trigger.files);
+        trigger.value = ''; // reset pour permettre re-sélection du même fichier
     });
 
-    function addFiles(files) {
-        Array.from(files).forEach(file => {
-            dataTransfer.items.add(file);
-            renderPreview(file, dataTransfer.files.length - 1);
-        });
-        input.files = dataTransfer.files;
+    function handleFiles(files) {
+        Array.from(files).forEach(file => addFile(file));
     }
 
-    function renderPreview(file, index) {
+    function addFile(file) {
+        const id = 'file_' + Date.now() + '_' + Math.random().toString(36).slice(2);
         const ext = file.name.split('.').pop().toLowerCase();
         const isImage = ['jpg','jpeg','png','webp','gif'].includes(ext);
+
+        // ── Créer un vrai input file caché contenant CE fichier ──
+        // On utilise un DataTransfer juste pour transférer le File dans un input neuf
+        // (c'est fiable car on ne réassigne pas un input existant)
+        const dt = new DataTransfer();
+        dt.items.add(file);
+
+        const realInput = document.createElement('input');
+        realInput.type = 'file';
+        realInput.name = 'files[]';
+        realInput.style.display = 'none';
+        realInput.id = id;
+        realInput.files = dt.files;
+        hiddenInputs.appendChild(realInput);
+
+        // ── Aperçu visuel ──
         const item = document.createElement('div');
         item.className = 'file-preview';
-        item.dataset.index = index;
+        item.dataset.id = id;
 
         if (isImage) {
             const img = document.createElement('img');
@@ -442,24 +458,14 @@
         btn.type = 'button';
         btn.className = 'remove-file';
         btn.textContent = '×';
-        btn.onclick = () => removeFile(index, item);
+        btn.onclick = () => {
+            // Supprimer le vrai input ET l'aperçu
+            document.getElementById(id)?.remove();
+            item.remove();
+        };
         item.appendChild(btn);
 
-        fileListEl.appendChild(item);
-    }
-
-    function removeFile(index, el) {
-        const newDT = new DataTransfer();
-        Array.from(dataTransfer.files)
-            .filter((_, i) => i !== index)
-            .forEach(f => newDT.items.add(f));
-        dataTransfer = newDT;
-        input.files = dataTransfer.files;
-        el.remove();
-        document.querySelectorAll('#file-list .file-preview').forEach((el, i) => {
-            el.dataset.index = i;
-            el.querySelector('.remove-file').onclick = () => removeFile(i, el);
-        });
+        fileList.appendChild(item);
     }
 </script>
 </body>
