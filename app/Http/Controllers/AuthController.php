@@ -8,6 +8,9 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        if (session('admin')) {
+            return redirect()->route('projects.create');
+        }
         return view('login');
     }
 
