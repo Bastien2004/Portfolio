@@ -210,7 +210,7 @@ h1 em {
     background: var(--surface) !important;
     border: 1px solid var(--border) !important;
     border-radius: 20px !important;
-    overflow: hidden; /* ← ajouter cette ligne */
+    overflow: hidden;
     transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
     height: 100%;
     display: flex;
