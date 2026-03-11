@@ -213,7 +213,7 @@
         if (p.github) {
             linksHtml += `<a href="${p.github}" target="_blank" class="btn btn-outline-primary py-2 px-3 text-sm rounded-pill border-0" style="background: rgba(255,255,255,0.05); color: white;">⬡ Code source</a>`;
         }
-        linksEl.innerHTML = linksHtml || '<span class="text-muted small">Privé</span>';
+        linksEl.innerHTML = linksHtml || '<span class="text-muted small labelColor">Privé</span>';
 
         // 5. Metadata
         document.getElementById('bs-modal-meta').innerHTML = `
