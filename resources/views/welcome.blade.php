@@ -116,7 +116,7 @@
                         <div class="card-footer" onclick="event.stopPropagation()">
                             <div class="card-links">
                                 @if($project->url)
-                                    <a href="{{ $project->url }}" target="_blank" class="link-pill">Aperçu Live</a>
+                                    <a href="{{ $project->url }}" target="_blank" class="link-pill labelColor">Aperçu Live</a>
                                 @endif
                             </div>
                             <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Supprimer ce projet ?')">
@@ -215,8 +215,8 @@
 
         // 5. Metadata
         document.getElementById('bs-modal-meta').innerHTML = `
-            <div><span class="text-muted">Date:</span> <span class="text-white">${p.created_at}</span></div>
-            <div><span class="text-muted">Éléments:</span> <span class="text-white">${p.files_count}</span></div>
+            <div><span class="labelColor">Date:</span> <span class="text-white">${p.created_at}</span></div>
+            <div><span class="labelColor">Éléments:</span> <span class="text-white">${p.files_count}</span></div>
             ${p.is_featured ? '<div class="text-cyan fw-bold">⭐ VEDETTE</div>' : ''}
         `;
 

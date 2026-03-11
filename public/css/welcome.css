@@ -380,6 +380,10 @@ h1 em {
     }
 }
 
+.labelColor {
+    color: #8fa6ec;
+}
+
 /* Scrollbar Style */
 ::-webkit-scrollbar {
     width: 8px;
