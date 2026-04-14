@@ -73,7 +73,7 @@
                         <div class="card-footer" onclick="event.stopPropagation()">
                             @if($project->url)
                                 <a href="{{ $project->url }}" target="_blank" class="link-external">
-                                    Live Demo <i class="bi bi-arrow-up-right"></i>
+                                    Consulter le projet <i class="bi bi-arrow-up-right"></i>
                                 </a>
                             @else
                                 <span></span>
