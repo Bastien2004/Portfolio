@@ -46,12 +46,18 @@
 
                             @php
                                 $firstFile = $project->files->first();
-                                $isVideo = $firstFile && in_array(pathinfo($firstFile->file_path, PATHINFO_EXTENSION), ['mp4', 'webm', 'ogg']);
+                                $extension = $firstFile ? strtolower(pathinfo($firstFile->file_path, PATHINFO_EXTENSION)) : null;
+                                $videoExtensions = ['mp4', 'webm', 'ogg', 'mov'];
+                                $isVideo = in_array($extension, $videoExtensions);
                             @endphp
 
                             @if($firstFile)
                                 @if($isVideo)
-                                    <video src="{{ asset('storage/' . $firstFile->file_path) }}" muted loop autoplay playsinline class="card-video"></video>
+                                    {{-- Vidéo en autoplay discret pour l'accueil --}}
+                                    <video src="{{ asset('storage/' . $firstFile->file_path) }}"
+                                           muted loop autoplay playsinline
+                                           class="card-video">
+                                    </video>
                                 @else
                                     <img src="{{ asset('storage/' . $firstFile->file_path) }}" alt="{{ $project->title }}" loading="lazy">
                                 @endif
