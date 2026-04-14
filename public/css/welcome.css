@@ -107,15 +107,6 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
     overflow: hidden;
 }
 
-.card-media img,
-.card-video {
-    width: 100%;
-    height: 100%;
-    /* "cover" remplit tout l'espace proprement, "contain" montre toute la vidéo avec des bandes noires */
-    object-fit: cover;
-    transition: transform 0.6s var(--ease), opacity 0.4s var(--ease);
-}
-
 .project-card:hover .card-media img,
 .project-card:hover .card-video {
     transform: scale(1.05);
@@ -186,9 +177,8 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
 .card-video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.8;
-    transition: opacity 0.4s var(--ease);
+    object-fit: contain;
+    background: #000;
 }
 
 .project-card:hover .card-video {
