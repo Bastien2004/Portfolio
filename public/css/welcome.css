@@ -158,6 +158,38 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
     padding: 12px; border-radius: 10px; text-decoration: none;
     font-weight: 600; transition: 0.2s;
 }
+
+
+/* Style pour la vidéo sur la carte */
+.card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 0.4s var(--ease);
+}
+
+.project-card:hover .card-video {
+    opacity: 1;
+}
+
+/* Style pour la vidéo dans la modale */
+.modal-video-item {
+    width: 100%;
+    background: #000;
+    display: block;
+    outline: none;
+    border-bottom: 2px solid var(--bg); /* Séparateur discret entre les médias */
+}
+
+/* On s'assure que les images gardent le même comportement */
+.modal-img-item {
+    width: 100%;
+    display: block;
+    border-bottom: 2px solid var(--bg);
+}
+
+
 .btn-modal-action.primary { background: var(--accent); color: white; }
 .btn-modal-action.secondary { background: var(--surface-light); color: white; }
 

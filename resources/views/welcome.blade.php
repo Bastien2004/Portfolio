@@ -47,9 +47,17 @@
                                 </div>
                             @endif
 
-                            @php $firstFile = $project->files->first(); @endphp
+                            @php
+                                $firstFile = $project->files->first();
+                                $isVideo = $firstFile && in_array(pathinfo($firstFile->file_path, PATHINFO_EXTENSION), ['mp4', 'webm', 'ogg']);
+                            @endphp
+
                             @if($firstFile)
-                                <img src="{{ asset('storage/' . $firstFile->file_path) }}" alt="{{ $project->title }}" loading="lazy">
+                                @if($isVideo)
+                                    <video src="{{ asset('storage/' . $firstFile->file_path) }}" muted loop autoplay playsinline class="card-video"></video>
+                                @else
+                                    <img src="{{ asset('storage/' . $firstFile->file_path) }}" alt="{{ $project->title }}" loading="lazy">
+                                @endif
                             @else
                                 <div class="media-placeholder">
                                     <i class="bi bi-folder2-open"></i>
@@ -133,29 +141,38 @@
         const p = projectsData[id];
         if (!p) return;
 
-        // Titre et Description
         document.getElementById('modal-title').textContent = p.title;
         document.getElementById('modal-desc').innerHTML = p.description.replace(/\n/g, '<br>');
 
-        // Galerie d'images
         const gallery = document.getElementById('modal-gallery');
         gallery.innerHTML = '';
 
         if (p.files && p.files.length > 0) {
             p.files.forEach(file => {
-                const img = document.createElement('img');
-                img.src = `/storage/${file.file_path}`;
-                img.className = 'modal-img-item';
-                img.alt = p.title;
-                gallery.appendChild(img);
+                const ext = file.file_path.split('.').pop().toLowerCase();
+                const videoExts = ['mp4', 'webm', 'ogg'];
+
+                let element;
+                if (videoExts.includes(ext)) {
+                    element = document.createElement('video');
+                    element.src = `/storage/${file.file_path}`;
+                    element.controls = true; // On ajoute les contrôles dans la modale
+                    element.className = 'modal-video-item';
+                } else {
+                    element = document.createElement('img');
+                    element.src = `/storage/${file.file_path}`;
+                    element.className = 'modal-img-item';
+                }
+                element.alt = p.title;
+                gallery.appendChild(element);
             });
         }
 
-        // Liens
+        // Gestion des liens (Code inchangé)
         const linksContainer = document.getElementById('modal-links');
         linksContainer.innerHTML = '';
         if(p.url) {
-            linksContainer.innerHTML += `<a href="${p.url}" target="_blank" class="btn-modal-action primary">Voir le site live</a>`;
+            linksContainer.innerHTML += `<a href="${p.url}" target="_blank" class="btn-modal-action primary">Consulter le projet</a>`;
         }
         if(p.github) {
             linksContainer.innerHTML += `<a href="${p.github}" target="_blank" class="btn-modal-action secondary mt-2">Code source GitHub</a>`;
