@@ -29,10 +29,6 @@
     </nav>
 
     <main class="container pb-5">
-        <div class="section-divider">
-            <span>Projets Récents</span>
-        </div>
-
         <div class="row g-4">
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
