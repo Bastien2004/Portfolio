@@ -1,36 +1,42 @@
 <div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg" style="background: var(--surface); color: var(--text); border-radius: 20px; overflow: hidden;">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
 
-            <div id="bs-modal-header" class="position-relative" style="height: 350px; background: var(--surface2); overflow: hidden;">
-            </div>
+            {{-- ── HEADER MEDIA ── --}}
+            <div id="bs-modal-header"></div>
 
-            <div class="modal-body p-4 p-md-5">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <h2 class="modal-title fw-bold" id="bs-modal-title" style="font-family: 'Syne'; font-size: 2rem;"></h2>
-                    <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            {{-- ── BODY ── --}}
+            <div class="modal-body">
+
+                {{-- Title + close --}}
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                    <h2 class="modal-title-text" id="bs-modal-title"></h2>
+                    <button type="button"
+                            class="btn-close btn-close-white shadow-none flex-shrink-0 mt-1"
+                            data-bs-dismiss="modal"
+                            aria-label="Fermer"></button>
                 </div>
 
-                <p id="bs-modal-desc" class="mb-4" style="color: var(--muted); font-size: 1.1rem; line-height: 1.6; white-space: pre-line;"></p>
+                {{-- Description --}}
+                <p id="bs-modal-desc"
+                   class="mb-4"
+                   style="color: var(--muted-lt); font-size: 1.02rem; line-height: 1.7; white-space: pre-line;"></p>
 
+                {{-- Tags + Links --}}
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <h6 class="text-uppercase small fw-bold mb-3" style="color: var(--blue-light); letter-spacing: 1.5px;">Technologies</h6>
-                        <div id="bs-modal-tags" class="d-flex flex-wrap gap-2">
-                        </div>
+                        <p class="modal-section-label">Technologies</p>
+                        <div id="bs-modal-tags" class="d-flex flex-wrap gap-2"></div>
                     </div>
-
                     <div class="col-md-6">
-                        <h6 class="text-uppercase small fw-bold mb-3" style="color: var(--blue-light); letter-spacing: 1.5px;">Actions & Liens</h6>
-                        <div id="bs-modal-links" class="d-flex flex-wrap gap-2">
-                        </div>
+                        <p class="modal-section-label">Liens</p>
+                        <div id="bs-modal-links" class="d-flex flex-wrap gap-2"></div>
                     </div>
                 </div>
 
-                <div class="mt-5 pt-4 border-top" style="border-color: var(--border) !important;">
-                    <div id="bs-modal-meta" class="d-flex flex-wrap gap-4 small text-uppercase" style="letter-spacing: 1px; color: var(--muted);">
-                    </div>
-                </div>
+                {{-- Meta --}}
+                <div class="modal-meta-row" id="bs-modal-meta"></div>
+
             </div>
         </div>
     </div>
