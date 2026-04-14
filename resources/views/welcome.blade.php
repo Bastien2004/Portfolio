@@ -25,9 +25,6 @@
             <a class="nav-logo" href="/">
                 <span class="nav-dot"></span> PORTFOLIO
             </a>
-            <a href="{{ route('projects.create') }}" class="btn-new">
-                <i class="bi bi-plus-lg"></i> <span>Nouveau Projet</span>
-            </a>
         </div>
     </nav>
 
