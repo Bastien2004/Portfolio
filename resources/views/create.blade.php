@@ -368,16 +368,6 @@
                     <div class="file-list" id="file-list"></div>
                 </div>
 
-                <div class="form-group">
-                    <label class="checkbox-row" for="is_featured">
-                        <input type="checkbox" name="is_featured" id="is_featured" value="1">
-                        <span class="checkbox-label">
-                            Mettre en avant ce projet
-                            <span>(badge "Featured" sur la carte)</span>
-                        </span>
-                    </label>
-                </div>
-
                 <div class="form-actions">
                     <a href="{{ route('projects.index') }}" class="btn-cancel">Annuler</a>
                     <button type="submit" class="btn-submit">Enregistrer le projet →</button>
