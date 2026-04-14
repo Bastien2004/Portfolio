@@ -1,86 +1,4 @@
 /* ============================================================
-   DESIGN SYSTEM
-   ============================================================ */
-:root {
-    --bg: #030712;
-    --surface: #0f172a;
-    --surface-light: #1e293b;
-    --accent: #3b82f6;
-    --accent-glow: rgba(59, 130, 246, 0.4);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border: rgba(255, 255, 255, 0.06);
-    --radius: 16px;
-    --ease: cubic-bezier(0.2, 1, 0.3, 1);
-}
-
-body {
-    background-color: var(--bg);
-    color: var(--text-main);
-    font-family: 'Outfit', sans-serif;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* Background Grids */
-.bg-orbs {
-    position: fixed; inset: 0; z-index: -1;
-    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-}
-.bg-orb-1 {
-    position: absolute; top: -10%; left: -10%; width: 40vw; height: 40vw;
-    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-    filter: blur(100px);
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-nav {
-    background: rgba(3, 7, 18, 0.8);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid var(--border);
-    padding: 1.25rem 0;
-}
-.nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; color: #fff;
-    text-decoration: none; font-size: 1.1rem;
-    letter-spacing: 2px; display: flex; align-items: center; gap: 10px;
-}
-.nav-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
-
-.btn-new {
-    background: var(--text-main); color: var(--bg);
-    padding: 0.6rem 1.2rem; border-radius: 100px;
-    font-weight: 600; font-size: 0.85rem; text-decoration: none;
-    transition: transform 0.2s var(--ease);
-}
-.btn-new:hover { transform: scale(1.05); color: var(--bg); }
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero { padding: 100px 0 60px; }
-.hero-eyebrow {
-    color: var(--accent); text-transform: uppercase;
-    letter-spacing: 5px; font-size: 0.7rem; font-weight: 800;
-}
-h1 {
-    font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem);
-    margin: 1rem 0; line-height: 1;
-}
-h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.3); }
-.hero-sub { color: var(--text-muted); max-width: 500px; font-weight: 300; }
-
-.section-divider {
-    border-top: 1px solid var(--border);
-    margin: 40px 0; padding-top: 15px;
-    font-size: 0.75rem; text-transform: uppercase;
-    color: var(--text-muted); letter-spacing: 2px;
-}
-
-/* ============================================================
    PROJECT CARDS
    ============================================================ */
 .project-card {
@@ -92,6 +10,7 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
     transition: all 0.4s var(--ease);
     cursor: pointer;
 }
+
 .project-card:hover {
     transform: translateY(-10px);
     border-color: rgba(59, 130, 246, 0.5);
@@ -106,12 +25,23 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
     overflow: hidden;
 }
 
-.card-media img{
+.card-media img,
+.card-video {
     width: 100%;
     height: 100%;
-    /* "cover" remplit tout l'espace proprement, "contain" montre toute la vidéo avec des bandes noires */
+    display: block;
+}
+
+.card-media img {
     object-fit: cover;
     transition: transform 0.6s var(--ease), opacity 0.4s var(--ease);
+}
+
+.card-video {
+    object-fit: contain;
+    object-position: center;
+    background: #000;
+    transition: opacity 0.4s var(--ease), transform 0.6s var(--ease);
 }
 
 .project-card:hover .card-media img,
@@ -120,100 +50,67 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
 }
 
 .file-badge {
-    position: absolute; top: 15px; right: 15px;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
-    padding: 5px 12px; border-radius: 100px;
-    font-size: 0.75rem; font-weight: 600; z-index: 2;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
 }
 
-.card-content { padding: 1.5rem; }
-.project-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-.project-excerpt { color: var(--text-muted); font-size: 0.9rem; font-weight: 300; }
+.card-content {
+    padding: 1.5rem;
+}
+
+.project-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.project-excerpt {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 300;
+}
 
 .tag-pill {
-    font-size: 0.65rem; background: var(--surface-light);
-    color: var(--text-muted); padding: 4px 10px;
-    border-radius: 5px; margin-right: 5px;
+    font-size: 0.65rem;
+    background: var(--surface-light);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
 .card-footer {
-    padding: 1.2rem 1.5rem; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-}
-.link-external { color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
-.btn-delete-icon { background: none; border: none; color: var(--text-muted); opacity: 0.4; transition: 0.2s; }
-.btn-delete-icon:hover { color: #ef4444; opacity: 1; }
-
-/* ============================================================
-   MODAL PREMIUM
-   ============================================================ */
-.modal-content { background: var(--bg); border: 1px solid var(--border) !important; overflow: hidden; }
-.modal-gallery-container {
-    background: #000;
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid var(--border);
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-}
-.modal-img-item { width: 100%; object-fit: contain; background: #000; }
-
-.modal-video-item, .modal-img-item {
-    width: 100%;
-    max-height: 80vh; /* Empêche que l'image soit plus grande que l'écran */
-    object-fit: contain; /* Dans la modale, on veut voir TOUTE l'image sans rognage */
 }
 
-.modal-info-panel { padding: 3rem; height: 100%; }
-.modal-project-title { font-family: 'Syne', sans-serif; font-size: 2.5rem; margin: 1.5rem 0; }
-.modal-project-desc { color: var(--text-muted); line-height: 1.8; font-weight: 300; }
-
-.btn-close-custom {
-    position: absolute; top: 20px; right: 20px; z-index: 100;
-    background: rgba(255,255,255,0.1); border: none; color: white;
-    width: 40px; height: 40px; border-radius: 50%; backdrop-filter: blur(10px);
+.link-external {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
-.btn-modal-action {
-    display: block; width: 100%; text-align: center;
-    padding: 12px; border-radius: 10px; text-decoration: none;
-    font-weight: 600; transition: 0.2s;
+.btn-delete-icon {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    opacity: 0.4;
+    transition: 0.2s;
 }
 
-
-/* Style pour la vidéo sur la carte */
-.card-video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    background: #000;
-    display: block;
-}
-
-.project-card:hover .card-video {
+.btn-delete-icon:hover {
+    color: #ef4444;
     opacity: 1;
 }
-
-/* Style pour la vidéo dans la modale */
-.modal-video-item {
-    width: 100%;
-    background: #000;
-    display: block;
-    outline: none;
-    border-bottom: 2px solid var(--bg); /* Séparateur discret entre les médias */
-}
-
-/* On s'assure que les images gardent le même comportement */
-.modal-img-item {
-    width: 100%;
-    display: block;
-    border-bottom: 2px solid var(--bg);
-}
-
-
-.btn-modal-action.primary { background: var(--accent); color: white; }
-.btn-modal-action.secondary { background: var(--surface-light); color: white; }
-
-/* Custom Scrollbar */
-.modal-gallery-container::-webkit-scrollbar { width: 5px; }
-.modal-gallery-container::-webkit-scrollbar-thumb { background: var(--surface-light); }
