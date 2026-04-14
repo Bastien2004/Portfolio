@@ -50,30 +50,6 @@
     ════════════════════════════════ --}}
     <header class="hero">
         <div class="hero-eyebrow">Mes travaux</div>
-
-        <h1>
-            Mes <em>Projets</em><br>
-            &amp; Réalisations
-        </h1>
-
-        <p class="hero-sub">
-            Projets développés, designs conçus, problèmes résolus.
-        </p>
-
-        <div class="hero-stats">
-            <div class="stat-item">
-                <div class="stat-val">{{ $projects->count() }}</div>
-                <div class="stat-label">Projets</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-val">{{ $projects->where('is_featured', true)->count() }}</div>
-                <div class="stat-label">En vedette</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-val">{{ $projects->sum(fn($p) => $p->files->count()) }}</div>
-                <div class="stat-label">Fichiers</div>
-            </div>
-        </div>
     </header>
 
     {{-- ════════════════════════════════
