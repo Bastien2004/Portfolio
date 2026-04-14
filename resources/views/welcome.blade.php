@@ -31,14 +31,6 @@
         </div>
     </nav>
 
-    <header class="hero container">
-        <div class="hero-content">
-            <span class="hero-eyebrow">Portfolio Sélectionné</span>
-            <h1 class="display-2 fw-bold">Design Pur & <em>Ingénierie</em></h1>
-            <p class="hero-sub">Exploration visuelle et solutions techniques à travers une sélection de projets digitaux.</p>
-        </div>
-    </header>
-
     <main class="container pb-5">
         <div class="section-divider">
             <span>Projets Récents</span>
