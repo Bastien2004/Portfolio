@@ -218,3 +218,30 @@ h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(25
 /* Custom Scrollbar */
 .modal-gallery-container::-webkit-scrollbar { width: 5px; }
 .modal-gallery-container::-webkit-scrollbar-thumb { background: var(--surface-light); }
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
+@media (max-width: 768px) {
+    /* On donne plus de hauteur à la vidéo sur mobile */
+    .card-media {
+        aspect-ratio: 4 / 3; /* Un format plus carré permet de mieux voir le contenu */
+    }
+
+    .card-video, .card-media img {
+        /* On repasse en 'cover' sur mobile pour remplir l'espace
+           SI tu acceptes de perdre un peu de décor sur les côtés
+           pour voir l'action principale en grand. */
+        object-fit: cover;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-video-item, .modal-img-item {
+        max-height: 50vh; /* La vidéo prend max 50% de la hauteur de l'écran sur tel */
+        object-fit: contain; /* On garde tout le cadre de la vidéo ici */
+    }
+
+    .modal-info-panel {
+        padding: 1.5rem; /* On réduit le padding trop large sur mobile */
+    }
+}
