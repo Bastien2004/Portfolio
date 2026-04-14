@@ -32,7 +32,7 @@
          NAVIGATION
     ════════════════════════════════ --}}
     <nav id="main-nav">
-        <a href="/" class="nav-logo">
+        <a class="nav-logo">
             <span class="nav-dot"></span>
             Portfolio
         </a>
