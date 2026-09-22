@@ -23,7 +23,6 @@
 
     <main class="container pb-5">
         <div class="row g-4">
-            <div></div>
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="project-card" tabindex="0" onclick="openModal({{ $project->id }})" onkeydown="if(event.key==='Enter'){openModal({{ $project->id }})}">
@@ -71,19 +70,23 @@
                             </div>
                         </div>
 
-                        <div class="card-footer" onclick="event.stopPropagation()">
-                            @if($project->url)
-                                <a href="{{ $project->url }}" target="_blank" class="link-external">
-                                    Consulter le projet <i class="bi bi-arrow-up-right"></i>
-                                </a>
-                            @else
-                                <span></span>
-                            @endif
-                            <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Supprimer ce projet ?');">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn-delete-icon" aria-label="Supprimer"><i class="bi bi-trash3"></i></button>
-                            </form>
-                        </div>
+                        @if($project->url || auth()->check())
+                            <div class="card-footer" onclick="event.stopPropagation()">
+                                @if($project->url)
+                                    <a href="{{ $project->url }}" target="_blank" class="link-external">
+                                        Consulter le projet <i class="bi bi-arrow-up-right"></i>
+                                    </a>
+                                @else
+                                    <span></span>
+                                @endif
+                                @auth
+                                    <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Supprimer ce projet ?');">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn-delete-icon" aria-label="Supprimer"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                @endauth
+                            </div>
+                        @endif
                     </article>
                 </div>
             @empty
