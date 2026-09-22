@@ -22,8 +22,8 @@
     </nav>
 
     <main class="container pb-5">
-        <div></div>
         <div class="row g-4">
+            <div></div>
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="project-card" tabindex="0" onclick="openModal({{ $project->id }})" onkeydown="if(event.key==='Enter'){openModal({{ $project->id }})}">
