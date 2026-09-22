@@ -22,8 +22,8 @@
     </nav>
 
     <main class="container pb-5">
-        <div></div>
         <div class="row g-4">
+            <div></div>
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="project-card" tabindex="0" onclick="openModal({{ $project->id }})" onkeydown="if(event.key==='Enter'){openModal({{ $project->id }})}">
@@ -71,7 +71,7 @@
                             </div>
                         </div>
 
-                        @if($project->url || auth()->check())
+                        @if($project->url || session('admin'))
                             <div class="card-footer" onclick="event.stopPropagation()">
                                 @if($project->url)
                                     <a href="{{ $project->url }}" target="_blank" class="link-external">
@@ -80,12 +80,12 @@
                                 @else
                                     <span></span>
                                 @endif
-                                @auth
+                                @if(session('admin'))
                                     <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Supprimer ce projet ?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn-delete-icon" aria-label="Supprimer"><i class="bi bi-trash3"></i></button>
                                     </form>
-                                @endauth
+                                @endif
                             </div>
                         @endif
                     </article>
