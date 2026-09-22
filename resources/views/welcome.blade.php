@@ -22,6 +22,7 @@
     </nav>
 
     <main class="container pb-5">
+        <div></div>
         <div class="row g-4">
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
