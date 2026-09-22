@@ -28,12 +28,6 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="project-card" tabindex="0" onclick="openModal({{ $project->id }})" onkeydown="if(event.key==='Enter'){openModal({{ $project->id }})}">
                         <div class="card-media">
-                            @if($project->files->count() > 1)
-                                <div class="file-badge">
-                                    <i class="bi bi-stack"></i> {{ $project->files->count() }}
-                                </div>
-                            @endif
-
                             @php
                                 $firstFile = $project->files->first();
                                 $extension = $firstFile ? strtolower(pathinfo($firstFile->file_path, PATHINFO_EXTENSION)) : null;
