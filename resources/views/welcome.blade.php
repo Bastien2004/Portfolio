@@ -6,7 +6,7 @@
     <title>Portfolio | Architecture & Digital</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
@@ -14,26 +14,24 @@
 </head>
 <body>
 
-<div class="bg-orbs">
-    <div class="bg-orb-1"></div>
-    <div class="bg-orb-2"></div>
-</div>
-
 <div class="wrapper">
     <nav id="main-nav" class="navbar sticky-top">
-        <div class="container px-md-5">
-            <a class="nav-logo" href="/">
-                <span class="nav-dot"></span> PORTFOLIO
-            </a>
+        <div class="container px-md-5 d-flex justify-content-between align-items-center">
+            <a class="nav-logo" href="/">Portfolio</a>
+            <span class="nav-count">{{ $projects->count() }} projet{{ $projects->count() > 1 ? 's' : '' }}</span>
         </div>
     </nav>
-    <br>
 
     <main class="container pb-5">
+        <div class="page-header">
+            <h1>Projets d'architecture et de design digital</h1>
+            <p>Une sélection de réalisations, du concept à la mise en ligne.</p>
+        </div>
+
         <div class="row g-4">
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
-                    <article class="project-card" onclick="openModal({{ $project->id }})">
+                    <article class="project-card" tabindex="0" onclick="openModal({{ $project->id }})" onkeydown="if(event.key==='Enter'){openModal({{ $project->id }})}">
                         <div class="card-media">
                             @if($project->files->count() > 1)
                                 <div class="file-badge">
@@ -88,14 +86,14 @@
                             @endif
                             <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Supprimer ce projet ?');">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn-delete-icon"><i class="bi bi-trash3"></i></button>
+                                <button type="submit" class="btn-delete-icon" aria-label="Supprimer"><i class="bi bi-trash3"></i></button>
                             </form>
                         </div>
                     </article>
                 </div>
             @empty
-                <div class="col-12 text-center py-5">
-                    <p class="text-muted opacity-50">Aucun projet archivé pour le moment.</p>
+                <div class="col-12">
+                    <p class="empty-state">Aucun projet archivé pour le moment.</p>
                 </div>
             @endforelse
         </div>
@@ -106,7 +104,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content border-0">
             <div class="modal-body p-0">
-                <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Fermer">
                     <i class="bi bi-x-lg"></i>
                 </button>
                 <div class="row g-0">
@@ -116,9 +114,7 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="modal-info-panel">
-                            <div class="modal-meta-top">
-                                <span class="text-accent small fw-bold text-uppercase tracking-widest">Détails du projet</span>
-                            </div>
+                            <div class="modal-meta-top">Détails du projet</div>
                             <h2 id="modal-title" class="modal-project-title"></h2>
                             <div id="modal-desc" class="modal-project-desc"></div>
 

@@ -1,247 +1,325 @@
 /* ============================================================
-   DESIGN SYSTEM
+   DESIGN TOKENS
    ============================================================ */
 :root {
     --bg: #030712;
-    --surface: #0f172a;
-    --surface-light: #1e293b;
+    --surface: #0b1220;
+    --surface-alt: #0f1829;
     --accent: #3b82f6;
-    --accent-glow: rgba(59, 130, 246, 0.4);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border: rgba(255, 255, 255, 0.06);
-    --radius: 16px;
-    --ease: cubic-bezier(0.2, 1, 0.3, 1);
+    --accent-dim: #2c5cb8;
+    --text-main: #f2f4f8;
+    --text-muted: #7c8798;
+    --text-faint: #4b5568;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+* { box-sizing: border-box; }
 
 body {
     background-color: var(--bg);
     color: var(--text-main);
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
     -webkit-font-smoothing: antialiased;
 }
 
-/* Background Grids */
-.bg-orbs {
-    position: fixed; inset: 0; z-index: -1;
-    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-}
-.bg-orb-1 {
-    position: absolute; top: -10%; left: -10%; width: 40vw; height: 40vw;
-    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-    filter: blur(100px);
-}
+::selection { background: var(--accent-dim); color: #fff; }
 
 /* ============================================================
    NAVIGATION
    ============================================================ */
 nav {
-    background: rgba(3, 7, 18, 0.8);
-    backdrop-filter: blur(15px);
+    background: var(--bg);
     border-bottom: 1px solid var(--border);
-    padding: 1.25rem 0;
+    padding: 1.1rem 0;
 }
 .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; color: #fff;
-    text-decoration: none; font-size: 1.1rem;
-    letter-spacing: 2px; display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 1.25rem;
 }
-.nav-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
-
-.btn-new {
-    background: var(--text-main); color: var(--bg);
-    padding: 0.6rem 1.2rem; border-radius: 100px;
-    font-weight: 600; font-size: 0.85rem; text-decoration: none;
-    transition: transform 0.2s var(--ease);
+.nav-count {
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
 }
-.btn-new:hover { transform: scale(1.05); color: var(--bg); }
 
 /* ============================================================
-   HERO
+   PAGE HEADER
    ============================================================ */
-.hero { padding: 100px 0 60px; }
-.hero-eyebrow {
-    color: var(--accent); text-transform: uppercase;
-    letter-spacing: 5px; font-size: 0.7rem; font-weight: 800;
+.page-header {
+    padding: 3rem 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
-h1 {
-    font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem);
-    margin: 1rem 0; line-height: 1;
+.page-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    margin: 0;
+    letter-spacing: -0.01em;
+    max-width: 20ch;
 }
-h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.3); }
-.hero-sub { color: var(--text-muted); max-width: 500px; font-weight: 300; }
-
-.section-divider {
-    border-top: 1px solid var(--border);
-    margin: 40px 0; padding-top: 15px;
-    font-size: 0.75rem; text-transform: uppercase;
-    color: var(--text-muted); letter-spacing: 2px;
+.page-header p {
+    color: var(--text-muted);
+    max-width: 42ch;
+    margin: 0.6rem 0 0;
+    line-height: 1.6;
 }
 
 /* ============================================================
-   PROJECT CARDS
+   PROJECT GRID / CARDS
    ============================================================ */
 .project-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: 3px;
     overflow: hidden;
     height: 100%;
-    transition: all 0.4s var(--ease);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.25s var(--ease);
     cursor: pointer;
 }
 .project-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    border-color: var(--border-strong);
+}
+.project-card:hover .card-media img,
+.project-card:hover .card-video {
+    filter: grayscale(0%);
 }
 
 .card-media {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 4 / 3;
     background: #000;
     overflow: hidden;
+    border-bottom: 1px solid var(--border);
 }
 
-.card-media img {
+.card-media img,
+.card-video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
-    background: #030712;
-    transition: transform 0.6s var(--ease), opacity 0.4s var(--ease);
-}
-
-.project-card:hover .card-media img,
-.project-card:hover .card-video {
-    transform: scale(1.05);
+    filter: grayscale(35%);
+    transition: filter 0.4s var(--ease);
 }
 
 .file-badge {
-    position: absolute; top: 15px; right: 15px;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
-    padding: 5px 12px; border-radius: 100px;
-    font-size: 0.75rem; font-weight: 600; z-index: 2;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(3, 7, 18, 0.75);
+    border: 1px solid var(--border-strong);
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-main);
+    z-index: 2;
 }
 
-.card-content { padding: 1.5rem; }
-.project-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-.project-excerpt { color: var(--text-muted); font-size: 0.9rem; font-weight: 300; }
+.media-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-faint);
+    font-size: 1.5rem;
+}
 
+.card-content {
+    padding: 1.35rem 1.35rem 1rem;
+    flex: 1;
+}
+.project-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.3;
+}
+.project-excerpt {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin: 0 0 0.9rem;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
 .tag-pill {
-    font-size: 0.65rem; background: var(--surface-light);
-    color: var(--text-muted); padding: 4px 10px;
-    border-radius: 5px; margin-right: 5px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 2px;
 }
 
 .card-footer {
-    padding: 1.2rem 1.5rem; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.9rem 1.35rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.link-external { color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
-.btn-delete-icon { background: none; border: none; color: var(--text-muted); opacity: 0.4; transition: 0.2s; }
-.btn-delete-icon:hover { color: #ef4444; opacity: 1; }
+.link-external {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 1px;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.link-external:hover { color: var(--accent); border-color: var(--accent); }
+
+.btn-delete-icon {
+    background: none;
+    border: none;
+    color: var(--text-faint);
+    padding: 0;
+    transition: color 0.2s var(--ease);
+}
+.btn-delete-icon:hover { color: #ef4444; }
+
+.empty-state {
+    color: var(--text-faint);
+    padding: 4rem 0;
+    text-align: center;
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+}
 
 /* ============================================================
-   MODAL PREMIUM
+   MODAL
    ============================================================ */
-.modal-content { background: var(--bg); border: 1px solid var(--border) !important; overflow: hidden; }
+.modal-content {
+    background: var(--bg);
+    border: 1px solid var(--border-strong) !important;
+    border-radius: 4px;
+    overflow: hidden;
+}
 .modal-gallery-container {
     background: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-height: 90vh;
+    overflow-y: auto;
 }
-.modal-img-item { width: 100%; object-fit: contain; background: #000; }
-
-.modal-video-item, .modal-img-item {
+.modal-img-item,
+.modal-video-item {
     width: 100%;
-    max-height: 80vh; /* Empêche que l'image soit plus grande que l'écran */
-    object-fit: contain; /* Dans la modale, on veut voir TOUTE l'image sans rognage */
+    max-height: 80vh;
+    object-fit: contain;
+    background: #000;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.modal-info-panel { padding: 3rem; height: 100%; }
-.modal-project-title { font-family: 'Syne', sans-serif; font-size: 2.5rem; margin: 1.5rem 0; }
-.modal-project-desc { color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.modal-info-panel {
+    padding: 2.75rem;
+    height: 100%;
+}
+.modal-meta-top {
+    color: var(--text-faint);
+    font-size: 0.78rem;
+}
+.modal-project-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.9rem;
+    margin: 0.9rem 0 1.2rem;
+    line-height: 1.25;
+}
+.modal-project-desc {
+    color: var(--text-muted);
+    line-height: 1.75;
+    font-size: 0.92rem;
+}
 
 .btn-close-custom {
-    position: absolute; top: 20px; right: 20px; z-index: 100;
-    background: rgba(255,255,255,0.1); border: none; color: white;
-    width: 40px; height: 40px; border-radius: 50%; backdrop-filter: blur(10px);
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    background: rgba(3, 7, 18, 0.6);
+    border: 1px solid var(--border-strong);
+    color: var(--text-main);
+    width: 36px;
+    height: 36px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-modal-action {
-    display: block; width: 100%; text-align: center;
-    padding: 12px; border-radius: 10px; text-decoration: none;
-    font-weight: 600; transition: 0.2s;
-}
-
-
-/* Style pour la vidéo sur la carte */
-.card-video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    background: #030712;
     display: block;
-}
-
-.project-card:hover .card-video {
-    opacity: 1;
-}
-
-/* Style pour la vidéo dans la modale */
-.modal-video-item {
     width: 100%;
-    background: #000;
-    display: block;
-    outline: none;
-    border-bottom: 2px solid var(--bg); /* Séparateur discret entre les médias */
+    text-align: center;
+    padding: 11px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-strong);
+    transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
-
-/* On s'assure que les images gardent le même comportement */
-.modal-img-item {
-    width: 100%;
-    display: block;
-    border-bottom: 2px solid var(--bg);
+.btn-modal-action.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
 }
+.btn-modal-action.primary:hover { background: var(--accent-dim); }
+.btn-modal-action.secondary {
+    background: transparent;
+    color: var(--text-main);
+}
+.btn-modal-action.secondary:hover { border-color: var(--text-main); }
 
-
-.btn-modal-action.primary { background: var(--accent); color: white; }
-.btn-modal-action.secondary { background: var(--surface-light); color: white; }
-
-/* Custom Scrollbar */
 .modal-gallery-container::-webkit-scrollbar { width: 5px; }
-.modal-gallery-container::-webkit-scrollbar-thumb { background: var(--surface-light); }
+.modal-gallery-container::-webkit-scrollbar-thumb { background: var(--surface-alt); }
 
-/* --- RESPONSIVE ADJUSTMENTS --- */
-
-@media (max-width: 768px) {
-    /* On donne plus de hauteur à la vidéo sur mobile */
-    .card-media {
-        aspect-ratio: 4 / 3; /* Un format plus carré permet de mieux voir le contenu */
-    }
-
-    .card-video, .card-media img {
-        /* On repasse en 'cover' sur mobile pour remplir l'espace
-           SI tu acceptes de perdre un peu de décor sur les côtés
-           pour voir l'action principale en grand. */
-        object-fit: cover;
-    }
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+a:focus-visible,
+button:focus-visible,
+.project-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-@media (max-width: 768px) {
-    .modal-video-item, .modal-img-item {
-        max-height: 50vh; /* La vidéo prend max 50% de la hauteur de l'écran sur tel */
-        object-fit: contain; /* On garde tout le cadre de la vidéo ici */
-    }
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
 
-    .modal-info-panel {
-        padding: 1.5rem; /* On réduit le padding trop large sur mobile */
-    }
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .card-media { aspect-ratio: 4 / 3; }
+    .modal-img-item, .modal-video-item { max-height: 50vh; }
+    .modal-info-panel { padding: 1.5rem; }
+    .page-header { padding: 2rem 0 1.5rem; }
 }
