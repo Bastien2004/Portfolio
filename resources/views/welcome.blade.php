@@ -18,16 +18,10 @@
     <nav id="main-nav" class="navbar sticky-top">
         <div class="container px-md-5 d-flex justify-content-between align-items-center">
             <a class="nav-logo" href="/">Portfolio</a>
-            <span class="nav-count">{{ $projects->count() }} projet{{ $projects->count() > 1 ? 's' : '' }}</span>
         </div>
     </nav>
 
     <main class="container pb-5">
-        <div class="page-header">
-            <h1>Projets d'architecture et de design digital</h1>
-            <p>Une sélection de réalisations, du concept à la mise en ligne.</p>
-        </div>
-
         <div class="row g-4">
             @forelse($projects as $project)
                 <div class="col-12 col-md-6 col-lg-4">
